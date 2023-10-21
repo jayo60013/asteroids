@@ -2,7 +2,7 @@
 
 #include <raylib.h>
 
-Bullet CreateBullet(Vector2 pos, float rot) {
+Bullet BulletCreate(Vector2 pos, float rot) {
   return (Bullet){
       .pos = pos, .rot = rot, .active = true, .creationTime = GetTime()};
 }

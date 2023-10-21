@@ -23,7 +23,7 @@ typedef struct Asteroid {
 
 } Asteroid;
 
-Asteroid CreateAsteroid(Vector2, Vector2, AsteroidSize);
+Asteroid AsteroidCreate(Vector2, Vector2, AsteroidSize);
 void AsteroidUpdate(Asteroid *asteroid, float frametime);
 void AsteroidDraw(Asteroid asteroid, Texture2D tex);
 float AsteroidRadius(Asteroid);

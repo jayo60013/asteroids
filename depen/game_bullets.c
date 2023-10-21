@@ -1,5 +1,4 @@
 #include "game_bullets.h"
-#include <raylib.h>
 
 static Bullet _bullets[BULLETS_MAX];
 
@@ -8,7 +7,7 @@ void AddBullet(Vector2 pos, float rot) {
     if (_bullets[i].active)
       continue;
 
-    _bullets[i] = CreateBullet(pos, rot);
+    _bullets[i] = BulletCreate(pos, rot);
     return;
   }
 }

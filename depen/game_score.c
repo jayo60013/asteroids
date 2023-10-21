@@ -14,7 +14,7 @@ void DrawScore(void) {
   const int yPadding = 8;
   const int shadow = 4;
 
-  const char *scoreText = TextFormat("Score: %d", _score);
+  const char *scoreText = TextFormat("%d PTS", _score);
   int textLength = MeasureText(scoreText, fontSize);
 
   int x = SCREEN_WIDTH - textLength - xPadding;

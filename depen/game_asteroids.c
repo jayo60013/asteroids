@@ -14,7 +14,7 @@ void AddAsteroid(AsteroidSize size) {
 
   for (int i = 0; i < ASTEROID_MAX; ++i) {
     if (!_asteroids[i].active) {
-      _asteroids[i] = CreateAsteroid(pos, vel, size);
+      _asteroids[i] = AsteroidCreate(pos, vel, size);
       return;
     }
   }
@@ -25,7 +25,7 @@ void AddAsteroid(AsteroidSize size) {
 void AddAsteroidWithPos(Vector2 pos, Vector2 vel, AsteroidSize size) {
   for (int i = 0; i < ASTEROID_MAX; ++i) {
     if (!_asteroids[i].active) {
-      _asteroids[i] = CreateAsteroid(pos, vel, size);
+      _asteroids[i] = AsteroidCreate(pos, vel, size);
       return;
     }
   }

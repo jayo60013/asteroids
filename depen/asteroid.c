@@ -3,7 +3,7 @@
 #include "raymath.h"
 #include <raylib.h>
 
-Asteroid CreateAsteroid(Vector2 pos, Vector2 vel, AsteroidSize size) {
+Asteroid AsteroidCreate(Vector2 pos, Vector2 vel, AsteroidSize size) {
   return (Asteroid){.active = true,
                     .pos = pos,
                     .vel = vel,
