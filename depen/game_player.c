@@ -1,16 +1,90 @@
 #include "game_player.h"
 #include "player.h"
+#include <raymath.h>
 
 static Player _player;
+static int _health = 10;
 
 void InitPlayer(void) {
   _player = (Player){.pos = SCREEN_CENTER,
                      .vel = {0.f, 0.f},
                      .acc = {0.f, 0.f},
                      .rot = 180.f,
-                     .lastFire = -1.f};
+                     .lastFire = -1.f,
+                     .state = PLAYER_DEFAULT};
+}
+
+static void OnDeath(void) { PlayerSetState(&_player, PLAYER_DEAD); }
+
+static void OnCollision(Asteroid *asteroid) {
+  const float playerNudgeMag = 150.f;
+  const float asteroidDecel = .4f;
+
+  _health--;
+  if (_health <= 0) {
+    OnDeath();
+    return;
+  }
+
+  PlayerSetState(&_player, PLAYER_STUNNED);
+
+  Vector2 nudgeDirection =
+      Vector2Normalize(Vector2Subtract(_player.pos, asteroid->pos));
+  _player.vel = Vector2Scale(nudgeDirection, playerNudgeMag);
+
+  asteroid->vel = Vector2Scale(asteroid->vel, asteroidDecel);
+}
+
+static void TickState(void) {
+  const float stunTime = .5f;
+  const float iFrameTime = 1.f;
+
+  switch (_player.state) {
+  case PLAYER_DEFAULT:
+    break;
+  case PLAYER_STUNNED:
+    if ((GetTime() - _player.lastStateEntered) > stunTime)
+      PlayerSetState(&_player, PLAYER_IFRAME);
+    break;
+  case PLAYER_IFRAME:
+    if ((GetTime() - _player.lastStateEntered) > iFrameTime)
+      PlayerSetState(&_player, PLAYER_DEFAULT);
+    break;
+  case PLAYER_DEAD:
+    break;
+  default:
+    TraceLog(LOG_ERROR, "Entered unknown state");
+  }
 }
 
 void DrawPlayer(Texture2D tex) { PlayerDraw(_player, tex); }
 
-void UpdatePlayer(void) { PlayerUpdate(&_player); }
+void UpdatePlayer(void) {
+  TickState();
+  PlayerMove(&_player);
+
+  if (_player.state == PLAYER_STUNNED)
+    return;
+
+  PlayerFire(&_player);
+
+  if (_player.state == PLAYER_IFRAME)
+    return;
+
+  Asteroid *asteroids = GetAsteroids();
+
+  for (int i = 0; i < ASTEROID_MAX; ++i) {
+    Asteroid *asteroid = (asteroids + i);
+
+    if (!asteroid->active)
+      continue;
+
+    if (!CheckCollisionCircles(_player.pos, PLAYER_RADIUS, asteroid->pos,
+                               AsteroidRadius(*asteroid)))
+      continue;
+
+    OnCollision(asteroid);
+
+    break;
+  }
+}
