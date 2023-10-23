@@ -37,7 +37,7 @@ static void OnCollision(Asteroid *asteroid) {
 static void TickState(void) {
   const float stunTime = .25f;
   const float iFrameTime = 1.f;
-  const float deathDelay = 1.5f;
+  const float deathDelay = 1.f;
 
   switch (_player.state) {
   case PLAYER_DEFAULT:

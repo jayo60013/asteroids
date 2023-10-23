@@ -22,6 +22,25 @@ static void SetState(GameState state) {
   _state = state;
 }
 
+static bool DrawButton(Rectangle r, char *text) {
+  Vector2 mousePos = GetMousePosition();
+  Color btnColor = RAYWHITE;
+  if (CheckCollisionPointRec(mousePos, r)) {
+    btnColor = Fade(RAYWHITE, .7f);
+  }
+
+  DrawRectangleRec(r, btnColor);
+  const int fontSize = 30;
+  float textLength = MeasureText(text, fontSize);
+  int xPos = r.x + (r.width / 2) - (textLength / 2);
+  int yPos = r.y + (r.height / 2) - (fontSize / 2);
+  DrawText(text, xPos, yPos, fontSize, BLACK);
+  if (CheckCollisionPointRec(mousePos, r) &&
+      IsMouseButtonDown(MOUSE_BUTTON_LEFT)) {
+    return true;
+  }
+  return false;
+}
 void InitGame(void) {
   InitPlayer();
   _spriteSheet = LoadTexture("./assets/spritesheet.png");
@@ -64,34 +83,22 @@ void DrawGame(void) {
 
     DrawScore();
 
-    DrawRectangleRec(topBtn, RED);
-    DrawText("PLAY AGAIN", topBtn.x, topBtn.y, 30, WHITE);
-    if (IsMouseButtonDown(MOUSE_LEFT_BUTTON) &&
-        CheckCollisionPointRec(GetMousePosition(), topBtn)) {
+    if (DrawButton(topBtn, "PLAY AGAIN")) {
       SetState(GAME_PLAYING);
       return;
     }
 
-    DrawRectangleRec(bottomBtn, GREEN);
-    DrawText("QUIT", bottomBtn.x, bottomBtn.y, 30, WHITE);
-    if (IsMouseButtonDown(MOUSE_LEFT_BUTTON) &&
-        CheckCollisionPointRec(GetMousePosition(), bottomBtn)) {
+    if (DrawButton(bottomBtn, "QUIT")) {
       SetState(GAME_MAIN_MENU);
       return;
     }
     break;
   case GAME_MAIN_MENU:
-    DrawRectangleRec(topBtn, RED);
-    DrawText("ASTEROIDS", topBtn.x, topBtn.y, 30, WHITE);
-    if (IsMouseButtonDown(MOUSE_LEFT_BUTTON) &&
-        CheckCollisionPointRec(GetMousePosition(), topBtn)) {
+    if (DrawButton(topBtn, "ASTEROIDS")) {
       SetState(GAME_PLAYING);
       return;
     }
-    DrawRectangleRec(bottomBtn, GREEN);
-    DrawText("QUIT", bottomBtn.x, bottomBtn.y, 30, WHITE);
-    if (IsMouseButtonDown(MOUSE_LEFT_BUTTON) &&
-        CheckCollisionPointRec(GetMousePosition(), bottomBtn)) {
+    if (DrawButton(bottomBtn, "QUIT")) {
       _quitGame = true;
       return;
     }

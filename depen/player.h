@@ -28,6 +28,7 @@ void UpdateVelocity(Player *, float);
 void UpdatePosition(Player *, float);
 void WrapPosition(Player *);
 void PlayerDraw(Player, Texture2D);
+void PlayerDrawBooster(Player, Texture2D);
 void PlayerFire(Player *);
 
 void PlayerSetState(Player *player, PlayerState state);

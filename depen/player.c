@@ -26,7 +26,7 @@ void PlayerFire(Player *player) {
   float time = GetTime();
   Vector2 acc = getAcceleration(player);
 
-  if (IsKeyDown(KEY_SPACE)) {
+  if (IsKeyDown(KEY_L)) {
     if (time > player->lastFire + PLAYER_FIRE_DELAY) {
       AddBullet(Vector2Add(player->pos, Vector2Scale(acc, PLAYER_RADIUS)),
                 -player->rot);
@@ -36,7 +36,7 @@ void PlayerFire(Player *player) {
 }
 
 void UpdateVelocity(Player *player, float frametime) {
-  int yIn = (int)IsKeyDown(KEY_UP) - (int)IsKeyDown(KEY_DOWN);
+  int yIn = (int)IsKeyDown(KEY_W) - (int)IsKeyDown(KEY_S);
   float mag = Vector2Length(player->vel);
   Vector2 acc = getAcceleration(player);
 
@@ -58,7 +58,7 @@ void UpdateVelocity(Player *player, float frametime) {
 }
 
 void UpdateRotation(Player *player, float frametime) {
-  int xIn = (int)IsKeyDown(KEY_LEFT) - (int)IsKeyDown(KEY_RIGHT);
+  int xIn = (int)IsKeyDown(KEY_A) - (int)IsKeyDown(KEY_D);
   player->rot += (xIn * PLAYER_ROT_SPEED * frametime);
 }
 
@@ -114,11 +114,29 @@ void PlayerDraw(Player player, Texture2D tex) {
   }
 
   DrawTexturePro(tex, source, dest, origin, 180 - player.rot, playerColor);
+  PlayerDrawBooster(player, tex);
+}
 
-  if (player.state != PLAYER_STUNNED && IsKeyDown(KEY_UP)) {
-    source = (Rectangle){74, 46, 8, 16};
-    dest = (Rectangle){player.pos.x, player.pos.y, 16, 32};
-    origin = (Vector2){dest.width / 2, -25};
+void PlayerDrawBooster(Player player, Texture2D tex) {
+  if (player.state != PLAYER_STUNNED && IsKeyDown(KEY_W)) {
+    Rectangle source;
+    switch ((int)(GetTime() * 4) % 4) {
+    case 0:
+      source = (Rectangle){74, 46, 8, 16};
+      break;
+    case 1:
+      source = (Rectangle){107, 46, 5, 16};
+      break;
+    case 2:
+      source = (Rectangle){136, 46, 9, 16};
+      break;
+    case 3:
+      source = (Rectangle){169, 46, 6, 16};
+      break;
+    }
+
+    Rectangle dest = (Rectangle){player.pos.x, player.pos.y, 16, 32};
+    Vector2 origin = (Vector2){dest.width / 2, -25};
     DrawTexturePro(tex, source, dest, origin, 180 - player.rot, WHITE);
   }
 }
