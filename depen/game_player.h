@@ -11,5 +11,6 @@
 void InitPlayer(void);
 void DrawPlayer(Texture2D);
 void UpdatePlayer(void);
+int GetPlayerHealth(void);
 
 #endif

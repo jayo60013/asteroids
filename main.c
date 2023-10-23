@@ -7,6 +7,7 @@
 #include "depen/game_bullets.h"
 #include "depen/game_player.h"
 #include "depen/game_score.h"
+#include "depen/game_ui.h"
 #include "depen/player.h"
 #include "raylib.h"
 #include "raymath.h"
@@ -43,6 +44,7 @@ void updateDrawFrame(void) {
   DrawAsteroids(_spriteSheet);
   DrawBullets(_spriteSheet);
   DrawPlayer(_spriteSheet);
+  DrawHealthBar();
   DrawScore();
 
   EndDrawing();

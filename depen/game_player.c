@@ -1,9 +1,10 @@
 #include "game_player.h"
+#include "constants.h"
 #include "player.h"
 #include <raymath.h>
 
 static Player _player;
-static int _health = 10;
+static int _health = PLAYER_NUM_LIVES;
 
 void InitPlayer(void) {
   _player = (Player){.pos = SCREEN_CENTER,
@@ -36,7 +37,7 @@ static void OnCollision(Asteroid *asteroid) {
 }
 
 static void TickState(void) {
-  const float stunTime = .5f;
+  const float stunTime = .25f;
   const float iFrameTime = 1.f;
 
   switch (_player.state) {
@@ -88,3 +89,5 @@ void UpdatePlayer(void) {
     break;
   }
 }
+
+int GetPlayerHealth() { return _health; }

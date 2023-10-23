@@ -28,6 +28,7 @@
 #define PLAYER_FRICTION .99995f
 #define PLAYER_FIRE_DELAY .3f
 #define PLAYER_NUDGE_VEL 150.f
+#define PLAYER_NUM_LIVES 5
 
 #define BULLET_SPEED                                                           \
   CLITERAL(Vector2) { 0.f, 500.f }
