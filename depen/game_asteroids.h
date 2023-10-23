@@ -15,4 +15,6 @@ Vector2 GetNextAsteroidVel(Vector2);
 Asteroid *GetAsteroids(void);
 void DestroyAsteroid(int index);
 
+void ResetAsteroids(void);
+
 #endif

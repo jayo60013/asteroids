@@ -13,7 +13,6 @@ static Vector2 getAcceleration(Player *player) {
 
 void PlayerMove(Player *player) {
   float frametime = GetFrameTime();
-  float time = GetTime();
 
   if (player->state != PLAYER_STUNNED && player->state != PLAYER_DEAD) {
     UpdateRotation(player, frametime);
@@ -97,16 +96,21 @@ void WrapPosition(Player *player) {
 }
 
 void PlayerDraw(Player player, Texture2D tex) {
+  if (player.state == PLAYER_DEAD)
+    return;
+
   Rectangle source = {3, 33, 25, 25};
   Rectangle dest = {player.pos.x, player.pos.y, 64, 64};
   Vector2 origin = {dest.width / 2, dest.height / 2};
-  Color playerColor;
-  if (player.state == PLAYER_STUNNED) {
-    playerColor = RED;
-  } else if (player.state == PLAYER_IFRAME) {
-    playerColor = PINK;
-  } else {
-    playerColor = WHITE;
+
+  Color playerColor = WHITE;
+  if (player.state == PLAYER_STUNNED || player.state == PLAYER_IFRAME) {
+    float s = GetTime() - player.lastStateEntered;
+    int value = (int)(s * 5.f);
+
+    if (value % 2 == 0) {
+      playerColor = Fade(RED, .6f);
+    }
   }
 
   DrawTexturePro(tex, source, dest, origin, 180 - player.rot, playerColor);

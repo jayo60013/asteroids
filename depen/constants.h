@@ -7,7 +7,7 @@
   CLITERAL(Vector2) { SCREEN_WIDTH / 2.f, SCREEN_HEIGHT / 2.f }
 #define SCREEN_AREA                                                            \
   CLITERAL(Rectangle) { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT }
-#define BACKGROUND_COLOR                                                       \
+#define BACKGROUND_COLOUR                                                      \
   CLITERAL(Color) { 15, 15, 15, 255 }
 
 #define MIN_ROTATION_SPEED 5

@@ -25,4 +25,6 @@ void BulletDraw(Bullet bullet, Texture2D tex) {
   Rectangle dest = {bullet.pos.x, bullet.pos.y, BULLET_WIDTH, BULLET_HEIGHT};
   Vector2 origin = {dest.width / 2, dest.height / 2};
   DrawTexturePro(tex, source, dest, origin, bullet.rot, WHITE);
+
+  // DrawCircleLines(bullet.pos.x, bullet.pos.y, 10, RED);
 }

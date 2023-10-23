@@ -110,3 +110,10 @@ void DestroyAsteroid(int index) {
 
   AddScore(points);
 }
+
+void ResetAsteroids(void) {
+  for (int i = 0; i < ASTEROID_MAX; i++) {
+    _asteroids[i] = (Asteroid){0};
+    _lastCreationTime = -1.f;
+  }
+}

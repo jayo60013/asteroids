@@ -1,7 +1,4 @@
 #include "game_player.h"
-#include "constants.h"
-#include "player.h"
-#include <raymath.h>
 
 static Player _player;
 static int _health = PLAYER_NUM_LIVES;
@@ -13,6 +10,7 @@ void InitPlayer(void) {
                      .rot = 180.f,
                      .lastFire = -1.f,
                      .state = PLAYER_DEFAULT};
+  _health = PLAYER_NUM_LIVES;
 }
 
 static void OnDeath(void) { PlayerSetState(&_player, PLAYER_DEAD); }
@@ -39,6 +37,7 @@ static void OnCollision(Asteroid *asteroid) {
 static void TickState(void) {
   const float stunTime = .25f;
   const float iFrameTime = 1.f;
+  const float deathDelay = 1.5f;
 
   switch (_player.state) {
   case PLAYER_DEFAULT:
@@ -52,6 +51,9 @@ static void TickState(void) {
       PlayerSetState(&_player, PLAYER_DEFAULT);
     break;
   case PLAYER_DEAD:
+    if ((GetTime() - _player.lastStateEntered) > deathDelay) {
+      GameOver();
+    }
     break;
   default:
     TraceLog(LOG_ERROR, "Entered unknown state");

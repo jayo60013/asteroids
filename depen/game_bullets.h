@@ -11,4 +11,6 @@ void UpdateBullets(void);
 
 bool BulletAsteroidIntersect(Bullet, Asteroid);
 
+void ResetBullets(void);
+
 #endif

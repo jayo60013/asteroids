@@ -3,10 +3,11 @@
 
 #include "asteroid.h"
 #include "constants.h"
+#include "game.h"
 #include "game_asteroids.h"
 #include "player.h"
-#include "raylib.h"
-#include "raymath.h"
+#include <raylib.h>
+#include <raymath.h>
 
 void InitPlayer(void);
 void DrawPlayer(Texture2D);

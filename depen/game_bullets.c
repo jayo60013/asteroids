@@ -1,4 +1,6 @@
 #include "game_bullets.h"
+#include "constants.h"
+#include <raylib.h>
 
 static Bullet _bullets[BULLETS_MAX];
 
@@ -43,31 +45,13 @@ void DrawBullets(Texture2D spriteSheet) {
 }
 
 bool BulletAsteroidIntersect(Bullet b, Asteroid a) {
-  Rectangle bulletRect = {b.pos.x - BULLET_WIDTH / 2.f,
-                          b.pos.y - BULLET_HEIGHT / 2.f, BULLET_WIDTH / 2.f,
-                          BULLET_HEIGHT / 2.f};
   float asteroidRadius = AsteroidRadius(a);
-  Vector2 asteroidCenter = {a.pos.x - asteroidRadius / 2.f,
-                            a.pos.y - asteroidRadius / 2.f};
 
-  float testX = asteroidCenter.x;
-  float testY = asteroidCenter.y;
+  return CheckCollisionPointCircle(b.pos, a.pos, asteroidRadius);
+}
 
-  if (asteroidCenter.x < bulletRect.x)
-    testX = bulletRect.x;
-  else if (asteroidCenter.x > bulletRect.x + bulletRect.width)
-    testX = bulletRect.x + bulletRect.width;
-  if (asteroidCenter.y < bulletRect.y)
-    testY = bulletRect.y;
-  else if (asteroidCenter.y > bulletRect.y + bulletRect.height)
-    testY = bulletRect.y + bulletRect.height;
-
-  float distX = asteroidCenter.x - testX;
-  float distY = asteroidCenter.y - testY;
-  float distance = sqrt((distX * distX) + (distY * distY));
-
-  if (distance <= asteroidRadius) {
-    return true;
+void ResetBullets(void) {
+  for (int i = 0; i < BULLETS_MAX; i++) {
+    _bullets[i] = (Bullet){0};
   }
-  return false;
 }
