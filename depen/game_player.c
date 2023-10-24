@@ -66,7 +66,7 @@ void UpdatePlayer(void) {
   TickState();
   PlayerMove(&_player);
 
-  if (_player.state == PLAYER_STUNNED)
+  if (_player.state == PLAYER_STUNNED || _player.state == PLAYER_DEAD)
     return;
 
   PlayerFire(&_player);

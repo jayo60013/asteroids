@@ -116,7 +116,21 @@ void PlayerDraw(Player player, Texture2D tex) {
   DrawTexturePro(tex, source, dest, origin, 180 - player.rot, playerColor);
 
   if (player.state != PLAYER_STUNNED && IsKeyDown(KEY_UP)) {
-    source = (Rectangle){74, 46, 8, 16};
+    Rectangle source;
+    switch ((int)(GetTime() * 4) % 4) {
+    case 0:
+      source = (Rectangle){74, 46, 8, 16};
+      break;
+    case 1:
+      source = (Rectangle){107, 46, 5, 16};
+      break;
+    case 2:
+      source = (Rectangle){136, 46, 9, 16};
+      break;
+    case 3:
+      source = (Rectangle){169, 46, 6, 16};
+      break;
+    }
     dest = (Rectangle){player.pos.x, player.pos.y, 16, 32};
     origin = (Vector2){dest.width / 2, -25};
     DrawTexturePro(tex, source, dest, origin, 180 - player.rot, WHITE);
